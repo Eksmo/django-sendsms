@@ -56,4 +56,3 @@ Creating custom ``SmsBackend`` s::
                             raise
 
 Then all you need to do is reference your backend in the ``SENDSMS_BACKEND`` setting.
-

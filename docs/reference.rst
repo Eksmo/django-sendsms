@@ -15,7 +15,7 @@ Available backends:
 
 .. toctree::
    :maxdepth: 1
-    
+
    backend_base.rst
    backend_dummy.rst
    backend_console.rst
@@ -23,6 +23,3 @@ Available backends:
    backend_twiliorest.rst
    backend_smspubli.rst
    backend_esendex.rst
-
-
-

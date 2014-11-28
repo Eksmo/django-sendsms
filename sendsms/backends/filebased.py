@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 SMS backend that writes messages to file instead of sending them.
 
@@ -9,7 +10,9 @@ import os
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+
 from sendsms.backends.console import SmsBackend as ConsoleSmsBackend
+
 
 class SmsBackend(ConsoleSmsBackend):
     def __init__(self, *args, **kwargs):
@@ -24,14 +27,16 @@ class SmsBackend(ConsoleSmsBackend):
         self.file_path = os.path.abspath(self.file_path)
         # Make sure that self.file_path is an directory if it exists.
         if os.path.exists(self.file_path) and not os.path.isdir(self.file_path):
-            raise ImproperlyConfigured('Path for saving SMS messages exists, but is not a directory: %s' % self.file_path)
+            raise ImproperlyConfigured(
+                'Path for saving SMS messages exists, but is not a directory: %s' % self.file_path)
         # Try to create it, if it not exists.
         elif not os.path.exists(self.file_path):
             try:
                 os.makedirs(self.file_path)
             except OSError, err:
-                raise ImproperlyConfigured('Could not create directory for saving SMS messages: %s (%s)' % (self.file_path, err))
-            # Make sure that self.file_path is writable.
+                raise ImproperlyConfigured(
+                    'Could not create directory for saving SMS messages: %s (%s)' % (self.file_path, err))
+        # Make sure that self.file_path is writable.
         if not os.access(self.file_path, os.W_OK):
             raise ImproperlyConfigured('Could not write to directory: %s' % self.file_path)
             # Finally, call super().

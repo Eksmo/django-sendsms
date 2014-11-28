@@ -1,5 +1,6 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from importlib import import_module
+
 
 def load_object(import_path):
     """

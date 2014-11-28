@@ -28,9 +28,9 @@
 import logging
 import unicodedata
 
-from smssluzbacz_api.lite import SmsGateApi
 from django.conf import settings
 
+from smssluzbacz_api.lite import SmsGateApi
 from sendsms.backends.base import BaseSmsBackend
 
 

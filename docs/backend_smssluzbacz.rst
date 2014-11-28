@@ -1,5 +1,5 @@
 SmsSluzbaCZ SmsBackend
-===================
+======================
 
 .. automodule:: sendsms.backends.smssluzbacz
    :members:

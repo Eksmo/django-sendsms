@@ -1,4 +1,3 @@
-
 class InvalidPhoneNumber(Exception):
     """
     The backends can use this exception to raise a standardized exception, if the

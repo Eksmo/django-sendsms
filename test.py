@@ -1,23 +1,26 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+
 from django.conf import settings
 
 import sendsms
 
+
 if not settings.configured:
     settings.configure(
-        SENDSMS_BACKEND = 'sendsms.backends.locmem.SmsBackend',
-        ESENDEX_USERNAME = 'niwibe',
-        ESENDEX_PASSWORD = '123123',
-        ESENDEX_ACCOUNT = '123123',
-        ESENDEX_SANDBOX = True,
+        SENDSMS_BACKEND='sendsms.backends.locmem.SmsBackend',
+        ESENDEX_USERNAME='niwibe',
+        ESENDEX_PASSWORD='123123',
+        ESENDEX_ACCOUNT='123123',
+        ESENDEX_SANDBOX=True,
     )
 
 
 class TestApi(unittest.TestCase):
     def test_send_simple_sms(self):
         from sendsms.message import SmsMessage
+
         obj = SmsMessage(body="test", from_phone='111111111', to=['222222222'])
         obj.send()
 
@@ -35,5 +38,3 @@ class TestApi(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-
-

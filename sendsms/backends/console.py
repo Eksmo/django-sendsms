@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 SMS backend that writes messages to console instead of sending them.
 
@@ -8,6 +8,7 @@ import sys
 import threading
 
 from sendsms.backends.base import BaseSmsBackend
+
 
 class SmsBackend(BaseSmsBackend):
     def __init__(self, *args, **kwargs):
@@ -28,7 +29,7 @@ class SmsBackend(BaseSmsBackend):
                 for message in messages:
                     self.stream.write(render_message(message))
                     self.stream.write('\n')
-                    self.stream.write('-'*79)
+                    self.stream.write('-' * 79)
                     self.stream.write('\n')
                     self.stream.flush()  # flush after each message
                 if stream_created:
@@ -39,6 +40,7 @@ class SmsBackend(BaseSmsBackend):
         finally:
             self._lock.release()
         return len(messages)
+
 
 def render_message(message):
     return u"""from: %(from)s\nto: %(to)s\nflash: %(flash)s\n%(body)s""" % {

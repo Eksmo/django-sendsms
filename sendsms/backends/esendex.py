@@ -25,11 +25,8 @@ Usage::
 """
 
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
-from django.utils.encoding import force_unicode
 
 import requests
-
 from .base import BaseSmsBackend
 
 ESENDEX_API_URL = 'https://www.esendex.com/secure/messenger/formpost/SendSMS.aspx'
@@ -37,6 +34,7 @@ ESENDEX_USERNAME = getattr(settings, 'ESENDEX_USERNAME', '')
 ESENDEX_PASSWORD = getattr(settings, 'ESENDEX_PASSWORD', '')
 ESENDEX_ACCOUNT = getattr(settings, 'ESENDEX_ACCOUNT', '')
 ESENDEX_SANDBOX = getattr(settings, 'ESENDEX_SANDBOX', False)
+
 
 class SmsBackend(BaseSmsBackend):
     """ 
@@ -84,11 +82,11 @@ class SmsBackend(BaseSmsBackend):
         params = {
             'EsendexUsername': self.get_username(),
             'EsendexPassword': self.get_password(),
-            'EsendexAccount': self.get_account(), 
-            'EsendexOriginator': message.from_phone, 
+            'EsendexAccount': self.get_account(),
+            'EsendexOriginator': message.from_phone,
             'EsendexRecipient': ",".join(message.to),
             'EsendexBody': message.body,
-            'EsendexPlainText':'1'
+            'EsendexPlainText': '1'
         }
         if ESENDEX_SANDBOX:
             params['EsendexTest'] = '1'
@@ -99,15 +97,15 @@ class SmsBackend(BaseSmsBackend):
                 raise Exception('Bad status code')
             else:
                 return False
-        
+
         if not response.content.startswith('Result'):
             if not self.fail_silently:
                 raise Exception('Bad result')
-            else: 
+            else:
                 return False
 
         response = self._parse_response(response.content)
-        
+
         if ESENDEX_SANDBOX and response['Result'] == 'Test':
             return True
         else:
@@ -116,7 +114,7 @@ class SmsBackend(BaseSmsBackend):
             else:
                 if not self.fail_silently:
                     raise Exception('Bad result')
-        
+
         return False
 
     def send_messages(self, messages):

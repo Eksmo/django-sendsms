@@ -16,10 +16,10 @@ setup(
     maintainer_email='stefan.foulis@gmail.com',
     packages=find_packages(),
     include_package_data=True,
-    extras_require = {
-      'esendex': ['requests'],
-      'twilio': ['twilio'],
-      'smssluzbacz': ['smssluzbacz-api']
+    extras_require={
+        'esendex': ['requests'],
+        'twilio': ['twilio'],
+        'smssluzbacz': ['smssluzbacz-api']
     },
     zip_safe=False,
     classifiers=[
@@ -30,5 +30,5 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP',
-    ]
+    ], requires=['django']
 )

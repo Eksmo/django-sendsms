@@ -25,12 +25,11 @@ Usage::
     message.send()
 """
 
-import requests, logging
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
-from django.utils.encoding import force_unicode
 
+import requests
 from .base import BaseSmsBackend
+
 
 SMSPUBLI_API_URL = 'https://secure.gateway360.com/api/push/'
 SMSPUBLI_API_VERSION = 'HTTPV3'
@@ -41,6 +40,7 @@ SMSPUBLI_ROUTE = 2
 SMSPUBLI_USERNAME = getattr(settings, 'SMSPUBLI_USERNAME', '')
 SMSPUBLI_PASSWORD = getattr(settings, 'SMSPUBLI_PASSWORD', '')
 SMSPUBLI_ALLOW_LONG_SMS = getattr(settings, 'SMSPUBLI_ALLOW_LONG_SMS', False)
+
 
 class SmsBackend(BaseSmsBackend):
     """ 
@@ -53,7 +53,7 @@ class SmsBackend(BaseSmsBackend):
 
     def get_username(self):
         return SMSPUBLI_USERNAME
-    
+
     def get_password(self):
         return SMSPUBLI_PASSWORD
 
@@ -67,15 +67,15 @@ class SmsBackend(BaseSmsBackend):
         """
 
         params = {
-            'V': SMSPUBLI_API_VERSION, 
-            'UN': SMSPUBLI_USERNAME, 
+            'V': SMSPUBLI_API_VERSION,
+            'UN': SMSPUBLI_USERNAME,
             'PWD': SMSPUBLI_PASSWORD,
-            'R': SMSPUBLI_ROUTE, 
+            'R': SMSPUBLI_ROUTE,
             'SA': message.from_phone,
             'DA': ','.join(message.to),
             'M': message.body.encode('latin-1'),
             'DC': SMSPUBLI_DC,
-            'DR': SMSPUBLI_DR, 
+            'DR': SMSPUBLI_DR,
             'UR': message.from_phone
         }
         if SMSPUBLI_ALLOW_LONG_SMS:
@@ -83,7 +83,7 @@ class SmsBackend(BaseSmsBackend):
 
         response = requests.post(SMSPUBLI_API_URL, params)
         if response.status_code != 200:
-            if  not self.fail_silently:
+            if not self.fail_silently:
                 raise
             else:
                 return False
@@ -110,7 +110,7 @@ class SmsBackend(BaseSmsBackend):
                 if not self.fail_silently:
                     raise
                 return False
-        
+
         return False
 
     def send_messages(self, messages):
