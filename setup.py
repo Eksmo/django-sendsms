@@ -30,5 +30,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP',
-    ], requires=['django']
+    ],
+    requires=['requests>=1.0'],
+    tests_require=['responses>=0.4.0'],
 )

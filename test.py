@@ -1,6 +1,7 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 import unittest
+import responses
 
 from django.conf import settings
 
@@ -34,6 +35,20 @@ class TestApi(unittest.TestCase):
         obj = SmsMessage(body="test", from_phone='111111111', to=['222222222'], connection=connection)
         res = obj.send()
         self.assertEqual(res, 1)
+
+    @responses.activate
+    def test_svyaznoy(self):
+        responses.add(responses.GET, 'https://smsinfo.zagruzka.com/aggrweb',
+                      content_type='application/json')
+        from sendsms.message import SmsMessage
+        from sendsms.api import get_connection
+
+        connection = get_connection('sendsms.backends.svyaznoy.SmsBackend')
+        obj = SmsMessage(body=u"test ☃", from_phone='111111111', to=['+222222222'], connection=connection)
+        res = obj.send()
+        self.assertEqual(res, 1)
+        self.assertEqual(len(responses.calls), 1)
+        self.assertIn('clientId=222222222', responses.calls[0].request.url)
 
 
 if __name__ == '__main__':
