@@ -31,6 +31,6 @@ setup(
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP',
     ],
-    requires=['requests>=1.0'],
+    install_requires=['requests>=1.0.0'],
     tests_require=['responses>=0.4.0'],
 )
