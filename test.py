@@ -1,6 +1,9 @@
 # coding: utf-8
+import shutil
+import tempfile
 
 import unittest
+from django.test import override_settings
 import responses
 
 from django.conf import settings
@@ -49,6 +52,21 @@ class TestApi(unittest.TestCase):
         self.assertEqual(res, 1)
         self.assertEqual(len(responses.calls), 1)
         self.assertIn('clientId=222222222', responses.calls[0].request.url)
+
+    def test_filebased(self):
+        from sendsms.api import send_sms
+        tmpdir = tempfile.mkdtemp()
+        with override_settings(SENDSMS_BACKEND='sendsms.backends.filebased.SmsBackend',
+                               SMS_FILE_PATH=tmpdir):
+            try:
+                send_sms(body=u'test ☃', from_phone='-', to=['+222222222'])
+            finally:
+                shutil.rmtree(tmpdir)
+
+    @override_settings(SENDSMS_BACKEND='sendsms.backends.console.SmsBackend')
+    def test_console(self):
+        from sendsms.api import send_sms
+        send_sms(body=u'test ☃', from_phone='-', to=['+222222222'])
 
 
 if __name__ == '__main__':
